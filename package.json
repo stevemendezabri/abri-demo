@@ -1,0 +1,23 @@
+{
+  "name": "abri-demo",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "mock-server": "json-server --watch db.json --port 3001"
+  },
+  "devDependencies": {
+    "json-server": "^1.0.0-beta.15",
+    "vite": "^8.3.1"
+  },
+  "dependencies": {
+    "@duckdb/duckdb-wasm": "^1.33.1-dev57.0",
+    "@vis.gl/react-google-maps": "^1.10.1",
+    "lucide-react": "^1.48.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  }
+}

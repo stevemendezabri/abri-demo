@@ -1,0 +1,74 @@
+{
+  "summary": {
+    "action_required_count": 4,
+    "parcels_at_risk": 7,
+    "pending_reviews": 3,
+    "next_board_milestone_days": 47
+  },
+  "activities": [
+    {
+      "id": 1,
+      "title": "Segment G – Utility Relocation Zone: Permit pathway classification required before 30% design submission",
+      "assignedTo": "ROW Sequence",
+      "source": "Resource Monitor",
+      "status": "Due in 5 days",
+      "severity": "warning"
+    },
+    {
+      "id": 2,
+      "title": "Parcel ROW-104: Appraised delay may impact permit readiness for station 2 area",
+      "assignedTo": "ROW Squad",
+      "source": "Resource Monitor",
+      "status": "Due in 12 days",
+      "severity": "danger"
+    }
+  ],
+  "trees": [
+    {
+      "id": "T-01024",
+      "species": "Live Oak",
+      "dbh": "18 in",
+      "condition": "Good",
+      "segment": "Segment A – Guideway South",
+      "status": "To Be Removed",
+      "mitigation": "14/22 in",
+      "type": "Protected",
+      "subtype": "Standard",
+      "notes": "Field flag tree 465 (Project Connect survey)."
+    },
+    {
+      "id": "T-01029",
+      "species": "Live Oak (Quercus virginiana)",
+      "dbh": "28 in",
+      "condition": "Good",
+      "segment": "Segment A – Guideway South",
+      "status": "To Be Removed",
+      "mitigation": "84 in",
+      "type": "Protected",
+      "subtype": "Heritage",
+      "notes": "Field flag tree 470 (Project Connect survey). Mitigation fulfilled via off-site planning agreement."
+    }
+  ],
+  "permits": [
+    {
+      "id": 1,
+      "element": "Segment A – Guideway W/O",
+      "pathway": "TS-Site Plan",
+      "status": "In Progress",
+      "nextAction": "ALCC coordination",
+      "owner": "ROW Team",
+      "dueDate": "Jun 30",
+      "risk": "HIGH"
+    },
+    {
+      "id": 2,
+      "element": "Segment C – Utility Relocation",
+      "pathway": "ROW Plan",
+      "status": "Classification Needed",
+      "nextAction": "P/I preliminary review – action required",
+      "owner": "AIKI",
+      "dueDate": "May 17",
+      "risk": "MED"
+    }
+  ]
+}
