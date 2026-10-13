@@ -1,26 +1,36 @@
+/**
+ * ============================================================================
+ * COMPONENT: WaterQualityDashboard
+ * ============================================================================
+ * Description: Program-wide water quality compliance dashboard managing 
+ * impervious cover, treatment volumes, BMP planning, and watershed risks.
+ */
+
 import React, { useState } from 'react';
 import { MapPin, Table, Search, List } from 'lucide-react';
-import {
-  treatmentRequiredData,
-  treatmentProvidedData,
-  pondsProvidedData,
-  ecoTrackProvidedData,
-  waterQualityData
-} from '../config/waterquality.config.js';
+import { waterQualityData } from '../config/waterquality.config.js';
+import TreatmentTables from '../components/TreatmentTables';
 
 export default function WaterQualityDashboard() {
-  const [wqSubTab, setWqSubTab] = useState('Overview & Map');
-  const [wqSegmentFilter, setWqSegmentFilter] = useState('All Segments');
-  const [wqSearchTerm, setWqSearchTerm] = useState('');
-  const [wqStatusFilter, setWqStatusFilter] = useState('All Permits');
-  const [selectedWaterQuality, setSelectedWaterQuality] = useState(null);
+  /* ==========================================
+     1. STATE MANAGEMENT HOOKS
+     ========================================== */
+  const [wqSubTab, setWqSubTab] = useState('Overview & Map'); // Active sub-tab navigation (defaults to Map)
+  const [wqSegmentFilter, setWqSegmentFilter] = useState('All Segments'); // Segment filter (1-5)
+  const [wqSearchTerm, setWqSearchTerm] = useState(''); // Text search by watershed or ID
+  const [wqStatusFilter, setWqStatusFilter] = useState('All Permits'); // Status filter (Approved, In Review, etc.)
+  const [selectedWaterQuality, setSelectedWaterQuality] = useState(null); // Selected item for map/detail panel
 
-  // Helper to match segment filters strictly within the 5 segments
+  /* ==========================================
+     2. HELPER FUNCTIONS & DATA FILTERING
+     ========================================== */
+  // Helper to strictly match segment filters across the 5 project segments
   const matchesSegment = (itemSegment, filter) => {
     if (filter === 'All Segments') return true;
     return itemSegment.startsWith(`${filter}:`);
   };
 
+  // Filtered dataset based on status, segment, and search query inputs
   const filteredData = waterQualityData
     .filter(item => wqStatusFilter === 'All Permits' || item.status === wqStatusFilter)
     .filter(item => matchesSegment(item.segment, wqSegmentFilter))
@@ -29,14 +39,22 @@ export default function WaterQualityDashboard() {
       item.id.toLowerCase().includes(wqSearchTerm.toLowerCase())
     );
 
+  /* ==========================================
+     3. COMPONENT RENDER
+     ========================================== */
   return (
     <div className="space-y-4">
+      
+      {/* ------------------------------------------
+         3.1 HEADER BAR & SUB-TAB NAVIGATION
+         ------------------------------------------ */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <div>
           <h1 className="text-xl font-bold text-gray-900 tracking-tight">Water Quality Dashboard</h1>
           <p className="text-xs text-gray-500 mt-0.5">Program-wide water quality compliance - Impervious cover, treatment volume, BMP planning, and watershed risk across every segment.</p>
         </div>
 
+        {/* Sub-tab Switcher Buttons */}
         <div className="flex items-center bg-gray-200 p-1 rounded-lg border border-gray-300 text-xs">
           <button
             onClick={() => setWqSubTab('Overview & Map')}
@@ -68,8 +86,12 @@ export default function WaterQualityDashboard() {
         </div>
       </div>
 
+      {/* ------------------------------------------
+         3.2 OVERVIEW & MAP OR LIST VIEW SECTIONS
+         ------------------------------------------ */}
       {(wqSubTab === 'Overview & Map' || wqSubTab === 'List View') && (
         <>
+          {/* Top Metric Summary Cards */}
           <div className="grid grid-cols-4 gap-3">
             {[
               { label: 'EST. PAYMENT-IN-LIEU', value: '$22.8M', sub: 'Exclusively urban watersheds', color: 'border-l-4 border-red-500' },
@@ -85,8 +107,10 @@ export default function WaterQualityDashboard() {
             ))}
           </div>
 
+          {/* Filtering and Search Control Bar */}
           <div className="flex items-center justify-between bg-white p-2.5 rounded-lg border border-gray-200">
             <div className="flex items-center space-x-3">
+              {/* Segment Dropdown Selector */}
               <div className="flex items-center space-x-1.5 bg-gray-50 px-2.5 py-1 rounded border border-gray-200 text-xs text-gray-600">
                 <span className="text-gray-400 font-medium">Segment:</span>
                 <select
@@ -103,6 +127,7 @@ export default function WaterQualityDashboard() {
                 </select>
               </div>
 
+              {/* Search Bar Input */}
               <div className="relative w-64">
                 <Search className="w-3.5 h-3.5 absolute left-2.5 top-2 text-gray-400" />
                 <input
@@ -115,6 +140,7 @@ export default function WaterQualityDashboard() {
               </div>
             </div>
 
+            {/* Status Filter Buttons */}
             <div className="flex items-center space-x-1 bg-gray-100 p-0.5 rounded text-xs">
               {['All Permits', 'Approved', 'In Review', 'Action Required'].map((filter) => (
                 <button
@@ -130,18 +156,21 @@ export default function WaterQualityDashboard() {
             </div>
           </div>
 
+    {/* GIS Map & Selected Permit Details Panel View */}
           {wqSubTab === 'Overview & Map' && (
-            <div className="grid grid-cols-3 gap-4 h-[550px]">
+            <div className="grid grid-cols-3 gap-4 h-[640px]">
               <div className="col-span-2 rounded-xl border border-gray-200 overflow-hidden relative h-full bg-gray-100">
-                <iframe
-                  title="Water Quality GIS Map"
-                  src="https://atptx.maps.arcgis.com/apps/mapviewer/index.html?webmap=39b7a3e374e14d2784dbbd1b51d7534c"
-                  width="100%"
-                  height="100%"
-                  className="border-0 rounded-xl"
-                  allowFullScreen
-                  loading="lazy"
-                ></iframe>
+                <div className="relative w-full h-[calc(100%+42px)] -mt-[57px]">
+                  <iframe
+                    title="Water Quality GIS Map"
+                    src="https://atptx.maps.arcgis.com/apps/mapviewer/index.html?webmap=39b7a3e374e14d2784dbbd1b51d7534c"
+                    width="100%"
+                    height="100%"
+                    className="border-0"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
               </div>
 
               <div className="bg-white rounded-xl border border-gray-200 p-3.5 flex flex-col justify-between overflow-y-auto">
@@ -192,6 +221,7 @@ export default function WaterQualityDashboard() {
             </div>
           )}
 
+          {/* Main Data Table */}
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="max-h-[500px] overflow-y-auto">
               <table className="w-full text-left text-xs">
@@ -235,195 +265,11 @@ export default function WaterQualityDashboard() {
         </>
       )}
 
+      {/* ------------------------------------------
+         3.3 TREATMENT CALCULATIONS SUB-TAB SECTION
+         ------------------------------------------ */}
       {wqSubTab === 'Treatment Calculations' && (
-        <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="bg-gray-800 text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex justify-between items-center">
-              <span>Overall Water Quality Treatment Required</span>
-              <span className="text-gray-400 font-mono text-[10px]">A, B, C, D, B+C-D</span>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="bg-gray-100 border-b border-gray-300 font-bold text-gray-700 text-[10px]">
-                    <th className="p-2.5 border-r border-gray-200">A</th>
-                    <th className="p-2.5 border-r border-gray-200">B</th>
-                    <th className="p-2.5 border-r border-gray-200">C</th>
-                    <th className="p-2.5 border-r border-gray-200">D</th>
-                    <th className="p-2.5">B+C-D</th>
-                  </tr>
-                  <tr className="bg-gray-50 border-b border-gray-200 text-gray-600 text-[10px]">
-                    <th className="p-2 border-r border-gray-200 font-semibold">Watershed Classification</th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">New IC<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Redeveloped IC<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Removed and Decompacted IC<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 font-semibold">Net IC Requiring Treatment<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 text-gray-800 font-mono text-[11px]">
-                  {treatmentRequiredData.rows.map((r, idx) => (
-                    <tr key={idx} className={r.classification === 'Total' ? 'bg-gray-100 font-bold text-gray-900' : 'hover:bg-gray-50'}>
-                      <td className="p-2.5 font-sans border-r border-gray-200 font-semibold">{r.classification}</td>
-                      <td className="p-2.5 border-r border-gray-200">{r.newIc}</td>
-                      <td className="p-2.5 border-r border-gray-200">{r.redevelopedIc}</td>
-                      <td className="p-2.5 border-r border-gray-200">{r.removedIc}</td>
-                      <td className="p-2.5 font-bold text-amber-700">{r.netIc}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="bg-gray-800 text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider flex justify-between items-center">
-              <span>Overall Water Quality Treatment Provided</span>
-              <span className="text-gray-400 font-mono text-[10px]">A, B, C, B+C</span>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="bg-gray-100 border-b border-gray-300 font-bold text-gray-700 text-[10px]">
-                    <th className="p-2.5 border-r border-gray-200">A</th>
-                    <th className="p-2.5 border-r border-gray-200">B</th>
-                    <th className="p-2.5 border-r border-gray-200">C</th>
-                    <th className="p-2.5 border-r border-gray-200">B+C</th>
-                    <th className="p-2.5">IC Requiring Payment in Lieu</th>
-                  </tr>
-                  <tr className="bg-gray-50 border-b border-gray-200 text-gray-600 text-[10px]">
-                    <th className="p-2 border-r border-gray-200 font-semibold">Watershed Classification</th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Water Quality Ponds<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Ecotrack<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Total IC Treated by SCMs<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 font-semibold">IC Requiring Payment in Lieu (See Calc Sheet)<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 text-gray-800 font-mono text-[11px]">
-                  {treatmentProvidedData.rows.map((r, idx) => (
-                    <tr key={idx} className={r.classification === 'Total' ? 'bg-gray-100 font-bold text-gray-900' : 'hover:bg-gray-50'}>
-                      <td className="p-2.5 font-sans border-r border-gray-200 font-semibold">{r.classification}</td>
-                      <td className="p-2.5 border-r border-gray-200">{r.ponds}</td>
-                      <td className="p-2.5 border-r border-gray-200">{r.ecotrack}</td>
-                      <td className="p-2.5 border-r border-gray-200 font-semibold text-emerald-700">{r.totalScm}</td>
-                      <td className="p-2.5 font-semibold text-purple-700">{r.paymentInLieu}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="bg-gray-800 text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-              Summary of Water Quality Treatment Provided at Ponds
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="bg-gray-100 border-b border-gray-300 font-bold text-gray-700 text-[10px] text-center">
-                    <th className="p-2 border-r border-gray-200">A</th>
-                    <th className="p-2 border-r border-gray-200">B</th>
-                    <th className="p-2 border-r border-gray-200">C</th>
-                    <th className="p-2 border-r border-gray-200">D</th>
-                    <th className="p-2 border-r border-gray-200">E</th>
-                    <th className="p-2 border-r border-gray-200">F</th>
-                    <th className="p-2 border-r border-gray-200">G = E+F</th>
-                    <th className="p-2 border-r border-gray-200">H</th>
-                    <th className="p-2 border-r border-gray-200">I</th>
-                    <th className="p-2 border-r border-gray-200">J</th>
-                    <th className="p-2 border-r border-gray-200">K = J/I</th>
-                    <th className="p-2">L = K*G</th>
-                  </tr>
-                  <tr className="bg-gray-50 border-b border-gray-200 text-gray-600 text-[10px]">
-                    <th className="p-2 border-r border-gray-200 font-semibold">SCM ID</th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Watershed Classification</th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">SCM Type</th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">DA<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">On-Site Treated IC<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Off-Site Treated IC<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Total Treated IC<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Required Capture Depth<br/><span className="text-[9px] text-gray-400">IN</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Required Volume<br/><span className="text-[9px] text-gray-400">CF</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Provided Volume<br/><span className="text-[9px] text-gray-400">CF</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">BMPDF</th>
-                    <th className="p-2 font-semibold">WQ IC Credit<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 text-gray-800 font-mono text-[11px]">
-                  {pondsProvidedData.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50">
-                      <td className="p-2 border-r border-gray-200 font-sans font-bold text-gray-900">{row.scmId}</td>
-                      <td className="p-2 border-r border-gray-200 font-sans">{row.classification}</td>
-                      <td className="p-2 border-r border-gray-200 font-sans text-gray-600">{row.scmType}</td>
-                      <td className="p-2 border-r border-gray-200">{row.da}</td>
-                      <td className="p-2 border-r border-gray-200">{row.onSiteIc}</td>
-                      <td className="p-2 border-r border-gray-200">{row.offSiteIc}</td>
-                      <td className="p-2 border-r border-gray-200 font-semibold">{row.totalIc}</td>
-                      <td className="p-2 border-r border-gray-200">{row.captureDepth}</td>
-                      <td className="p-2 border-r border-gray-200">{row.reqVol}</td>
-                      <td className="p-2 border-r border-gray-200">{row.provVol}</td>
-                      <td className="p-2 border-r border-gray-200">{row.bmpdf}</td>
-                      <td className="p-2 font-bold text-amber-700">{row.wqCredit}</td>
-                    </tr>
-                  ))}
-                  <tr className="bg-gray-100 font-bold text-gray-900">
-                    <td colSpan={11} className="p-2.5 font-sans border-r border-gray-200 text-right uppercase">TOTAL WQ IC CREDIT (AC)</td>
-                    <td className="p-2.5 font-mono text-emerald-700 text-xs">43.91</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="bg-gray-800 text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-              Summary of Water Quality Treatment Provided by Eco-Track
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="bg-gray-100 border-b border-gray-300 font-bold text-gray-700 text-[10px] text-center">
-                    <th className="p-2 border-r border-gray-200">A</th>
-                    <th className="p-2 border-r border-gray-200">B</th>
-                    <th className="p-2 border-r border-gray-200">C</th>
-                    <th className="p-2 border-r border-gray-200">D</th>
-                    <th className="p-2 border-r border-gray-200">E</th>
-                    <th className="p-2 border-r border-gray-200">F</th>
-                    <th className="p-2 border-r border-gray-200">G</th>
-                    <th className="p-2 border-r border-gray-200">H = G/F</th>
-                    <th className="p-2">I = H*D</th>
-                  </tr>
-                  <tr className="bg-gray-50 border-b border-gray-200 text-gray-600 text-[10px]">
-                    <th className="p-2 border-r border-gray-200 font-semibold">Watershed Classification</th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Ecotrack<br/><span className="text-[9px] text-gray-400">LF</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Drainage Area (LRT Guideway)<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Treated IC (Track Slab)<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Required Capture Depth<br/><span className="text-[9px] text-gray-400">IN</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Required Volume<br/><span className="text-[9px] text-gray-400">CF</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">Provided Volume<br/><span className="text-[9px] text-gray-400">CF</span></th>
-                    <th className="p-2 border-r border-gray-200 font-semibold">BMPDF</th>
-                    <th className="p-2 font-semibold">WQ IC Credit<br/><span className="text-[9px] text-gray-400">AC</span></th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 text-gray-800 font-mono text-[11px]">
-                  {ecoTrackProvidedData.map((row, idx) => (
-                    <tr key={idx} className={row.classification === 'Total' ? 'bg-gray-100 font-bold text-gray-900' : 'hover:bg-gray-50'}>
-                      <td className="p-2.5 font-sans border-r border-gray-200 font-semibold">{row.classification}</td>
-                      <td className="p-2.5 border-r border-gray-200">{row.ecotrackLf}</td>
-                      <td className="p-2.5 border-r border-gray-200">{row.drainageArea}</td>
-                      <td className="p-2.5 border-r border-gray-200">{row.treatedIc}</td>
-                      <td className="p-2.5 border-r border-gray-200">{row.reqCaptureDepth}</td>
-                      <td className="p-2.5 border-r border-gray-200">{row.reqVol}</td>
-                      <td className="p-2.5 border-r border-gray-200">{row.provVol}</td>
-                      <td className="p-2.5 border-r border-gray-200">{row.bmpdf}</td>
-                      <td className="p-2.5 font-bold text-emerald-700">{row.wqCredit}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <TreatmentTables />
       )}
     </div>
   );

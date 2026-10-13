@@ -102,14 +102,11 @@ export default function TreeTracking() {
       <div className="grid grid-cols-3 gap-4 h-[550px]">
         <div className="col-span-2 rounded-xl border border-gray-200 overflow-hidden relative h-full bg-gray-100">
           <iframe
-            title="Austin Light Rail Saved Map"
-            src="https://www.google.com/maps/d/embed?mid=11i1pEtbNEY1vgZBR1PNLUDCfxLtPXOY"
-            width="100%"
-            height="100%"
-            className="border-0 rounded-xl"
-            allowFullScreen=""
-            loading="lazy"
-          ></iframe>
+            title="Austin Light Rail Map"
+            src="https://atptx.maps.arcgis.com/apps/mapviewer/index.html?webmap=39b7a3e374e14d2784dbbd1b51d7534c"
+            className="w-full h-full border-0 rounded-xl"
+            allowFullScreen
+          />
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 p-3.5 flex flex-col justify-between overflow-y-auto">

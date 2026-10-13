@@ -16,8 +16,9 @@
   "dependencies": {
     "@duckdb/duckdb-wasm": "^1.33.1-dev57.0",
     "@vis.gl/react-google-maps": "^1.10.1",
-    "lucide-react": "^1.48.0",
+    "lucide-react": "^1.53.0",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "recharts": "^3.10.1"
   }
 }

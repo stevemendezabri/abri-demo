@@ -7,8 +7,8 @@ import {
   TreePine,
   Layers,
   FileText,
-  Clock
-} from 'lucide-react';
+  ChartNoAxesCombined,
+  Clock} from 'lucide-react';
 
 import ProgramDashboard from './views/ProgramDashboard';
 import PermitTracker from './views/PermitTracker';
@@ -17,6 +17,7 @@ import TreeTracking from './views/TreeTracking';
 import RowSequencingBoard from './views/RowSequencingBoard';
 import WeeklyDigest from './views/WeeklyDigest';
 import ItemsPendingReview from './views/ItemsPendingReview';
+import ProgramAnalytics from './views/ProgramAnalytics';
 
 export default function App() {
   // Read saved tab from localStorage on initial render, default to 'Tree Tracking'
@@ -35,7 +36,8 @@ export default function App() {
     { name: 'Tree Tracking', icon: TreePine },
     { name: 'ROW Sequencing Board', icon: Layers },
     { name: 'Weekly Digest', icon: FileText },
-    { name: 'Items Pending Review', icon: Clock }
+    { name: 'Items Pending Review', icon: Clock },
+    { name: 'Program Analytics', icon: ChartNoAxesCombined }
   ];
 
   return (
@@ -47,6 +49,7 @@ export default function App() {
       {activeTab === 'ROW Sequencing Board' && <RowSequencingBoard />}
       {activeTab === 'Weekly Digest' && <WeeklyDigest />}
       {activeTab === 'Items Pending Review' && <ItemsPendingReview />}
+      {activeTab === 'Program Analytics' && <ProgramAnalytics />}
     </Layout>
   );
 }
