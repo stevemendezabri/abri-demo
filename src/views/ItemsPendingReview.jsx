@@ -1,44 +1,41 @@
-import React from 'react';
+/**
+ * ============================================================================
+ * COMPONENT: RowSequencingBoard
+ * ============================================================================
+ * Description: Parcel acquisition timelines aligned with design submittals and site access priority[cite: 4]. */
 
-export default function ItemsPendingReview() {
+export default function RowSequencingBoard() {
+  const columns = ['IN NEGOTIATION', 'AGREEMENT REACHED', 'ACQUIRED / CLEARED'];
+
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-xl font-bold text-gray-900 tracking-tight">Items Pending Review</h1>
-        <p className="text-xs text-gray-500 mt-0.5">Flagged items requiring review and decision – organized by source and priority</p>
+        <h1 className="text-xl font-bold text-gray-900 tracking-tight">ROW Sequencing Board</h1>
+        <p className="text-xs text-gray-500 mt-0.5">Parcel acquisition timelines aligned with design submittals and site access priority[cite: 4]</p>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden text-xs">
-        <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b border-gray-200 text-gray-400 uppercase font-semibold text-[10px]">
-            <tr>
-              <th className="p-3">DESCRIPTION</th>
-              <th className="p-3">SOURCE</th>
-              <th className="p-3">STATUS</th>
-              <th className="p-3">ASSIGNED TO</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            <tr className="hover:bg-gray-50">
-              <td className="p-3">
-                <div className="font-bold text-gray-900">Segment C utility scope description indicates potential impervious cover increase</div>
-                <div className="text-[11px] text-gray-500">Permit pathway review required before 30% design submission can proceed</div>
-              </td>
-              <td className="p-3"><span className="bg-purple-100 text-purple-800 text-[10px] px-2 py-0.5 rounded font-bold">Process Monitor</span></td>
-              <td className="p-3"><span className="bg-red-100 text-red-800 text-[10px] px-2 py-0.5 rounded font-bold">New - Action Required</span></td>
-              <td className="p-3 font-medium text-gray-800">ABI</td>
-            </tr>
-            <tr className="hover:bg-gray-50">
-              <td className="p-3">
-                <div className="font-bold text-gray-900">ROW-008 acquisition timeline conflict with Station 3 design schedule</div>
-                <div className="text-[11px] text-gray-500">Current price creates projected 9-week permit sequencing gap</div>
-              </td>
-              <td className="p-3"><span className="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">ROW Sequencing</span></td>
-              <td className="p-3"><span className="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded font-bold">Under Review</span></td>
-              <td className="p-3 font-medium text-gray-800">ROW Lead</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="grid grid-cols-3 gap-4">
+        {columns.map((col, idx) => (
+          <div key={col} className="bg-gray-100/70 p-3 rounded-xl border border-gray-200">
+            <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 flex justify-between">
+              <span>{col}</span>
+              <span className="bg-gray-200 text-gray-700 px-1.5 rounded">{idx + 2}</span>
+            </div>
+
+            <div className="space-y-2">
+              <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm space-y-1">
+                <div className="font-bold text-xs text-amber-600 font-mono">PARCEL ROW-108</div>
+                <div className="text-xs font-semibold text-gray-800">Station 2 Entry Plaza</div>
+                <div className="text-[11px] text-gray-500">Target Access: Aug 2025</div>
+              </div>
+              <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm space-y-1">
+                <div className="font-bold text-xs text-amber-600 font-mono">PARCEL ROW-112</div>
+                <div className="text-xs font-semibold text-gray-800">Utility Corridor Segment B</div>
+                <div className="text-[11px] text-gray-500">Target Access: Oct 2025</div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

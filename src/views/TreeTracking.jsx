@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDuckDB } from "../hooks/useDuckDB";
 import { Search } from 'lucide-react';
+import StatCard from '../components/StatCard';
 
 export default function TreeTracking() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,7 +31,7 @@ export default function TreeTracking() {
       <div>
         <h1 className="text-xl font-bold text-gray-900 tracking-tight">Tree Tracking</h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Track trees within the Austin Light Rail program – removal, mitigation, protection, and compliance through completion
+          Track trees within the Austin Light Rail program – removal, mitigation, protection, and compliance through completion[cite: 3]
         </p>
       </div>
 
@@ -43,11 +44,13 @@ export default function TreeTracking() {
           { label: 'HERITAGE REMOVED', value: '24', sub: 'Requires 300% mitigation', color: 'border-l-4 border-purple-500' },
           { label: 'MITIGATION FULFILLMENT', value: '78%', sub: 'In Progress', color: 'border-l-4 border-blue-500' }
         ].map((kpi, idx) => (
-          <div key={idx} className={`bg-white rounded-lg p-3 border border-gray-200 shadow-sm ${kpi.color}`}>
-            <div className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">{kpi.label}</div>
-            <div className="text-xl font-extrabold text-gray-900 my-0.5">{kpi.value}</div>
-            <div className="text-[10px] text-gray-500">{kpi.sub}</div>
-          </div>
+          <StatCard
+            key={idx}
+            label={kpi.label}
+            value={kpi.value}
+            subtext={kpi.sub}
+            color={kpi.color}
+          />
         ))}
       </div>
 

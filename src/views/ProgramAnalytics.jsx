@@ -1,3 +1,10 @@
+/**
+ * ============================================================================
+ * COMPONENT: ProgramAnalytics
+ * ============================================================================
+ * Description: Cross-domain metrics for Permits, Water Quality Compliance, 
+ * and Environmental Mitigation[cite: 6]. */
+
 import React, { useMemo } from 'react';
 import { permitTrackerData } from '../config/permittracker.config';
 import {
@@ -16,8 +23,8 @@ import {
   Area
 } from 'recharts';
 import { FileText, Droplets, Trees, AlertTriangle } from 'lucide-react';
-
-import { waterQualityData, treatmentRequiredData } from '../config/waterquality.config';
+import { waterQualityData } from '../config/waterquality.config';
+import StatCard from '../components/StatCard';
 
 // Parsed SQL values from SEED_TREES_DATA
 const treeDataRaw = [
@@ -54,7 +61,6 @@ const treeDataRaw = [
   { species: 'Bur Oak', dbh: 25, status: 'To Be Removed', tree_type: 'Heritage', permit_pathway: 'Site Plan Permit' }
 ];
 
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 const RISK_COLORS = { Low: '#10B981', Medium: '#F59E0B', High: '#EF4444' };
 
 const ProgramAnalytics = () => {
@@ -115,50 +121,58 @@ const ProgramAnalytics = () => {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-slate-900">Program Analytics</h1>
         <p className="text-slate-500 text-sm">
-          Cross-domain metrics for Permits, Water Quality Compliance, and Environmental Mitigation.
+          Cross-domain metrics for Permits, Water Quality Compliance, and Environmental Mitigation[cite: 6].
         </p>
       </div>
 
-      {/* Metric Cards */}
+      {/* Metric Cards using StatCard */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
-            <FileText size={24} />
-          </div>
-          <div>
-            <div className="text-xs text-slate-500 font-medium">Total Permits Tracked</div>
-            <div className="text-2xl font-bold text-slate-900">{totalPermits}</div>
-          </div>
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <StatCard
+            label="Total Permits Tracked"
+            value={totalPermits}
+            color="border-l-4 border-blue-500"
+          >
+            <div className="p-3 bg-blue-50 text-blue-600 rounded-lg w-fit mt-2">
+              <FileText size={20} />
+            </div>
+          </StatCard>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-red-50 text-red-600 rounded-lg">
-            <AlertTriangle size={24} />
-          </div>
-          <div>
-            <div className="text-xs text-slate-500 font-medium">High Risk Permits</div>
-            <div className="text-2xl font-bold text-slate-900">{highRiskPermits}</div>
-          </div>
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <StatCard
+            label="High Risk Permits"
+            value={highRiskPermits}
+            color="border-l-4 border-red-500"
+          >
+            <div className="p-3 bg-red-50 text-red-600 rounded-lg w-fit mt-2">
+              <AlertTriangle size={20} />
+            </div>
+          </StatCard>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-cyan-50 text-cyan-600 rounded-lg">
-            <Droplets size={24} />
-          </div>
-          <div>
-            <div className="text-xs text-slate-500 font-medium">Add'l Imp. Cover (SF)</div>
-            <div className="text-2xl font-bold text-slate-900">{totalImpCover.toLocaleString()}</div>
-          </div>
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <StatCard
+            label="Add'l Imp. Cover (SF)"
+            value={totalImpCover.toLocaleString()}
+            color="border-l-4 border-cyan-500"
+          >
+            <div className="p-3 bg-cyan-50 text-cyan-600 rounded-lg w-fit mt-2">
+              <Droplets size={20} />
+            </div>
+          </StatCard>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
-            <Trees size={24} />
-          </div>
-          <div>
-            <div className="text-xs text-slate-500 font-medium">Trees Marked Removal</div>
-            <div className="text-2xl font-bold text-slate-900">{totalTreesRemoved}</div>
-          </div>
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <StatCard
+            label="Trees Marked Removal"
+            value={totalTreesRemoved}
+            color="border-l-4 border-emerald-500"
+          >
+            <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg w-fit mt-2">
+              <Trees size={20} />
+            </div>
+          </StatCard>
         </div>
       </div>
 
@@ -170,42 +184,42 @@ const ProgramAnalytics = () => {
           <p className="text-xs text-slate-500 mb-4">Volume of permits grouped by track segment and risk level.</p>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-<BarChart data={permitSegmentData} margin={{ top: 10, right: 10, left: 0, bottom: 60 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-            <XAxis 
-              dataKey="segment" 
-              tick={({ x, y, payload }) => {
-                const text = payload.value.length > 18 ? `${payload.value.substring(0, 15)}...` : payload.value;
-                return (
-                  <g transform={`translate(${x},${y})`}>
-                    <text
-                      x={0}
-                      y={0}
-                      dy={12}
-                      textAnchor="end"
-                      fill="#64748B"
-                      fontSize={11}
-                      transform="rotate(-25)"
-                    >
-                      <title>{payload.value}</title>
-                      {text}
-                    </text>
-                  </g>
-                );
-              }} 
-              interval={0} 
-            />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Legend 
-              verticalAlign="bottom" 
-              align="center" 
-              wrapperStyle={{ position: 'relative', marginTop: '20px', fontSize: 12 }} 
-            />
-            <Bar dataKey="High" stackId="a" fill={RISK_COLORS.High} />
-            <Bar dataKey="Medium" stackId="a" fill={RISK_COLORS.Medium} />
-            <Bar dataKey="Low" stackId="a" fill={RISK_COLORS.Low} />
-          </BarChart>
+              <BarChart data={permitSegmentData} margin={{ top: 10, right: 10, left: 0, bottom: 60 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                <XAxis 
+                  dataKey="segment" 
+                  tick={({ x, y, payload }) => {
+                    const text = payload.value.length > 18 ? `${payload.value.substring(0, 15)}...` : payload.value;
+                    return (
+                      <g transform={`translate(${x},${y})`}>
+                        <text
+                          x={0}
+                          y={0}
+                          dy={12}
+                          textAnchor="end"
+                          fill="#64748B"
+                          fontSize={11}
+                          transform="rotate(-25)"
+                        >
+                          <title>{payload.value}</title>
+                          {text}
+                        </text>
+                      </g>
+                    );
+                  }} 
+                  interval={0} 
+                />
+                <YAxis tick={{ fontSize: 11 }} />
+                <Tooltip />
+                <Legend 
+                  verticalAlign="bottom" 
+                  align="center" 
+                  wrapperStyle={{ position: 'relative', marginTop: '20px', fontSize: 12 }} 
+                />
+                <Bar dataKey="High" stackId="a" fill={RISK_COLORS.High} />
+                <Bar dataKey="Medium" stackId="a" fill={RISK_COLORS.Medium} />
+                <Bar dataKey="Low" stackId="a" fill={RISK_COLORS.Low} />
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </div>

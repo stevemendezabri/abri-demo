@@ -3,13 +3,21 @@
  * COMPONENT: PermitTracker
  * ============================================================================
  * Description: Manages COA permit statuses, current action owners, risk assessments, 
- * approval timelines, and segment mapping across the project.
+ * approval timelines, and segment mapping across the project[cite: 7].
+ * 
+ * ORGANIZATION NOTE: 
+ * - Leverages the shared `StatCard` component for top summary KPI cards 
+ *   (Total Permits, Issued Permits, High Risk Items, and Completion Rate) 
+ *   to maintain consistent card markup and clean dashboard layouts[cite: 7].
+ * - Organizes state filters, pagination, interactive GIS mapping, and 
+ *   expandable sequence step timelines into modular sections[cite: 7].
  */
 
 import React, { useState, useMemo } from 'react';
 import { RotateCcw, Map, Table, ChevronLeft, ChevronRight, X, Plus, Minus, ArrowRight } from 'lucide-react';
 import { permitTrackerData } from '../config/permittracker.config.js';
 import { permitMasterTableData } from '../config/permitMasterTableData.js';
+import StatCard from '../components/StatCard';
 
 /**
  * ============================================================================
@@ -225,7 +233,7 @@ export default function PermitTracker() {
         <div>
           <h1 className="text-xl font-bold text-gray-900 tracking-tight">Permit Tracker</h1>
           <p className="text-xs text-gray-500 mt-0.5">
-            COA permit status, current action owner, risk assessment, and approval tracking across segments
+            COA permit status, current action owner, risk assessment, and approval tracking across segments[cite: 7]
           </p>
         </div>
 
@@ -262,39 +270,32 @@ export default function PermitTracker() {
          ------------------------------------------ */}
       {activeView === 'overview' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total Permits</span>
-            <div className="my-2">
-              <span className="text-2xl font-bold text-gray-900">{stats.totalPermits}</span>
-            </div>
-            <span className="text-xs font-medium text-gray-500">Across {stats.totalTypes} permit types</span>
-          </div>
+          <StatCard
+            label="Total Permits"
+            value={stats.totalPermits}
+            subtext={`Across ${stats.totalTypes} permit types`}
+          />
 
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Issued Permits</span>
-            <div className="my-2">
-              <span className="text-2xl font-bold text-emerald-600">{stats.issuedCount}</span>
-            </div>
-            <span className="text-xs font-medium text-emerald-600">Fully approved & issued</span>
-          </div>
+          <StatCard
+            label="Issued Permits"
+            value={stats.issuedCount}
+            subtext="Fully approved & issued"
+            color="border-l-4 border-emerald-500"
+          />
 
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">High Risk Items</span>
-            <div className="my-2">
-              <span className="text-2xl font-bold text-red-600">{stats.highRiskCount}</span>
-            </div>
-            <span className="text-xs text-red-600 font-medium">Pending critical submittals</span>
-          </div>
+          <StatCard
+            label="High Risk Items"
+            value={stats.highRiskCount}
+            subtext="Pending critical submittals"
+            color="border-l-4 border-red-500"
+          />
 
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Completion Rate</span>
-            <div className="my-2">
-              <span className="text-2xl font-bold text-blue-600">
-                {stats.completionPercentage}%
-              </span>
-            </div>
-            <span className="text-xs text-gray-500">{stats.issuedCount} of {stats.totalPermits} permits issued</span>
-          </div>
+          <StatCard
+            label="Completion Rate"
+            value={`${stats.completionPercentage}%`}
+            subtext={`${stats.issuedCount} of ${stats.totalPermits} permits issued`}
+            color="border-l-4 border-blue-500"
+          />
         </div>
       )}
 

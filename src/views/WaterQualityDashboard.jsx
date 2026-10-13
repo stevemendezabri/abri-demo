@@ -3,13 +3,14 @@
  * COMPONENT: WaterQualityDashboard
  * ============================================================================
  * Description: Program-wide water quality compliance dashboard managing 
- * impervious cover, treatment volumes, BMP planning, and watershed risks.
+ * impervious cover, treatment volumes, BMP planning, and watershed risks[cite: 2].
  */
 
 import React, { useState } from 'react';
 import { MapPin, Table, Search, List } from 'lucide-react';
 import { waterQualityData } from '../config/waterquality.config.js';
 import TreatmentTables from '../components/TreatmentTables';
+import StatCard from '../components/StatCard';
 
 export default function WaterQualityDashboard() {
   /* ==========================================
@@ -51,7 +52,7 @@ export default function WaterQualityDashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <div>
           <h1 className="text-xl font-bold text-gray-900 tracking-tight">Water Quality Dashboard</h1>
-          <p className="text-xs text-gray-500 mt-0.5">Program-wide water quality compliance - Impervious cover, treatment volume, BMP planning, and watershed risk across every segment.</p>
+          <p className="text-xs text-gray-500 mt-0.5">Program-wide water quality compliance - Impervious cover, treatment volume, BMP planning, and watershed risk across every segment[cite: 2].</p>
         </div>
 
         {/* Sub-tab Switcher Buttons */}
@@ -99,11 +100,13 @@ export default function WaterQualityDashboard() {
               { label: 'SUBURBAN OVERTREATMENT', value: '12.66 AC', sub: 'Applied as urban credit', color: 'border-l-4 border-emerald-500' },
               { label: 'ACTIVE PERMITS', value: '3', sub: 'Approved or active at 15', color: 'border-l-4 border-blue-500' }
             ].map((stat, i) => (
-              <div key={i} className={`bg-white p-3 rounded-lg border border-gray-200 shadow-sm ${stat.color}`}>
-                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{stat.label}</div>
-                <div className="text-xl font-extrabold text-gray-900 my-0.5">{stat.value}</div>
-                <div className="text-[10px] text-gray-500">{stat.sub}</div>
-              </div>
+              <StatCard
+                key={i}
+                label={stat.label}
+                value={stat.value}
+                subtext={stat.sub}
+                color={stat.color}
+              />
             ))}
           </div>
 
@@ -156,7 +159,7 @@ export default function WaterQualityDashboard() {
             </div>
           </div>
 
-    {/* GIS Map & Selected Permit Details Panel View */}
+          {/* GIS Map & Selected Permit Details Panel View */}
           {wqSubTab === 'Overview & Map' && (
             <div className="grid grid-cols-3 gap-4 h-[640px]">
               <div className="col-span-2 rounded-xl border border-gray-200 overflow-hidden relative h-full bg-gray-100">
