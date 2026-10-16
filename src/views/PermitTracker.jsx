@@ -3,15 +3,7 @@
  * COMPONENT: PermitTracker
  * ============================================================================
  * Description: Manages COA permit statuses, current action owners, risk assessments, 
- * approval timelines, and segment mapping across the project[cite: 7].
- * 
- * ORGANIZATION NOTE: 
- * - Leverages the shared `StatCard` component for top summary KPI cards 
- *   (Total Permits, Issued Permits, High Risk Items, and Completion Rate) 
- *   to maintain consistent card markup and clean dashboard layouts[cite: 7].
- * - Organizes state filters, pagination, interactive GIS mapping, and 
- *   expandable sequence step timelines into modular sections[cite: 7].
- */
+ * approval timelines, and segment mapping across the project[cite: 7]. */
 
 import React, { useState, useMemo } from 'react';
 import { RotateCcw, Map, Table, ChevronLeft, ChevronRight, X, Plus, Minus, ArrowRight } from 'lucide-react';

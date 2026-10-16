@@ -160,6 +160,7 @@ export default function WaterQualityDashboard() {
           </div>
 
           {/* GIS Map & Selected Permit Details Panel View */}
+
           {wqSubTab === 'Overview & Map' && (
             <div className="grid grid-cols-3 gap-4 h-[640px]">
               <div className="col-span-2 rounded-xl border border-gray-200 overflow-hidden relative h-full bg-gray-100">
@@ -174,7 +175,7 @@ export default function WaterQualityDashboard() {
                     loading="lazy"
                   />
                 </div>
-              </div>
+             </div>
 
               <div className="bg-white rounded-xl border border-gray-200 p-3.5 flex flex-col justify-between overflow-y-auto">
                 <div>

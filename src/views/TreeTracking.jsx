@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDuckDB } from "../hooks/useDuckDB";
 import { Search } from 'lucide-react';
 import StatCard from '../components/StatCard';
+import ArcGISMap from '../components/ArcGISMap'; // Import the new map component
 
 export default function TreeTracking() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -103,12 +104,12 @@ export default function TreeTracking() {
       </div>
 
       <div className="grid grid-cols-3 gap-4 h-[550px]">
-        <div className="col-span-2 rounded-xl border border-gray-200 overflow-hidden relative h-full bg-gray-100">
-          <iframe
+        {/* Replaced raw iframe container with the new ArcGISMap component */}
+        <div className="col-span-2 h-full">
+          <ArcGISMap 
             title="Austin Light Rail Map"
             src="https://atptx.maps.arcgis.com/apps/mapviewer/index.html?webmap=39b7a3e374e14d2784dbbd1b51d7534c"
-            className="w-full h-full border-0 rounded-xl"
-            allowFullScreen
+            className="h-full"
           />
         </div>
 
