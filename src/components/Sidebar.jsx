@@ -39,6 +39,7 @@ export default function Sidebar({ navTabs, activeTab, setActiveTab }) {
       {/* Bottom Section */}
       <div>
         {/* Logo positioned directly above Engine Status */}
+
         <div className="px-4 py-3 border-t border-gray-800 flex justify-center">
           <img src={atpLogo} alt="Austin Transit Partnership" className="h-8 w-auto object-contain" />
         </div>
