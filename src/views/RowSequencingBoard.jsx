@@ -27,7 +27,7 @@ export default function RowSequencingBoard() {
         {
           id: 'ROW-112',
           name: 'Utility Corridor Segment B (4th St)',
-          owner: 'Austin Energy Utility Easement',
+          owner: 'City Energy Utility Easement',
           targetAccess: 'Mar 2027',
           estValuation: '$320K',
           priority: 'Low',
@@ -42,7 +42,7 @@ export default function RowSequencingBoard() {
         {
           id: 'ROW-201',
           name: 'Congress Ave Maintenance Pocket',
-          owner: 'Downtown Austin Alliance Joint Trust',
+          owner: 'Downtown City Alliance Joint Trust',
           targetAccess: 'Dec 2026',
           estValuation: '$2.1M',
           priority: 'High',
@@ -75,7 +75,7 @@ export default function RowSequencingBoard() {
         {
           id: 'ROW-002',
           name: 'Main Yard Maintenance & Operations Facility',
-          owner: 'City of Austin Municipal Real Estate',
+          owner: 'City of City Municipal Real Estate',
           targetAccess: 'Ready (Cleared)',
           estValuation: '$4.5M',
           priority: 'Completed',

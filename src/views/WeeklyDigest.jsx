@@ -35,7 +35,7 @@ export default function WeeklyDigest() {
             </div>
             <div className="bg-amber-50/50 p-3.5 rounded-lg border border-amber-100 space-y-1">
               <h4 className="font-bold text-amber-900">PENDING CLEARANCES</h4>
-              <p className="text-gray-700 leading-relaxed">Awaiting final traffic control permit approval from Austin Transportation Department for 4th St lane shift.</p>
+              <p className="text-gray-700 leading-relaxed">Awaiting final traffic control permit approval from City Transportation Department for 4th St lane shift.</p>
               <div className="text-[10px] text-amber-600 font-medium pt-1">Action: Follow-up required by 14:00</div>
             </div>
             <div className="bg-emerald-50/50 p-3.5 rounded-lg border border-emerald-100 space-y-1">

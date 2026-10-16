@@ -12,7 +12,7 @@ export default function ProgramDashboard() {
     <div className="space-y-4">
       <div>
         <h1 className="text-xl font-bold text-gray-900 tracking-tight">Program Dashboard</h1>
-        <p className="text-xs text-gray-500 mt-0.5">Austin Light Rail - Phase 1b Infrastructure Hub[cite: 5]</p>
+        <p className="text-xs text-gray-500 mt-0.5">Public Transit Rail - Phase 1b Infrastructure Hub[cite: 5]</p>
       </div>
 
       {/* Top Stat Cards using shared StatCard component */}

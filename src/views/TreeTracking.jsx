@@ -32,7 +32,7 @@ export default function TreeTracking() {
       <div>
         <h1 className="text-xl font-bold text-gray-900 tracking-tight">Tree Tracking</h1>
         <p className="text-xs text-gray-500 mt-0.5">
-          Track trees within the Austin Light Rail program – removal, mitigation, protection, and compliance through completion[cite: 3]
+          Track trees within the City Light Rail program – removal, mitigation, protection, and compliance through completion[cite: 3]
         </p>
       </div>
 
@@ -107,7 +107,7 @@ export default function TreeTracking() {
         {/* Replaced raw iframe container with the new ArcGISMap component */}
         <div className="col-span-2 h-full">
           <ArcGISMap 
-            title="Austin Light Rail Map"
+            title="City Light Rail Map"
             src="https://atptx.maps.arcgis.com/apps/mapviewer/index.html?webmap=39b7a3e374e14d2784dbbd1b51d7534c"
             className="h-full"
           />
